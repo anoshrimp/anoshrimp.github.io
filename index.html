@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>shrimp — a deep dive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== fixed atmosphere layers ===== -->
+  <div class="water" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ===== nav ===== -->
+  <header class="nav">
+    <a class="nav-logo" href="#" data-dive="0" aria-label="back to surface">
+      <svg viewBox="0 0 100 100" class="mini-shrimp"><use href="#shrimp" /></svg>
+      shrimp
+    </a>
+    <nav>
+      <a href="#about" data-dive="about">about</a>
+      <a href="#work" data-dive="work">work</a>
+      <a href="#playground" data-dive="playground">playground</a>
+      <a href="#hi" data-dive="hi" class="nav-cta">say hi</a>
+    </nav>
+  </header>
+
+  <!-- ===== depth meter (neal.fun style) ===== -->
+  <aside class="meter" aria-live="off">
+    <div class="meter-value"><span id="depth">0</span><small>m</small></div>
+    <div class="meter-zone" id="zone">the surface</div>
+    <div class="meter-track"><i id="meter-dot"></i></div>
+  </aside>
+
+  <!-- ===== shrimp buddy that dives with you ===== -->
+  <button class="buddy" id="buddy" aria-label="shrimp buddy">
+    <span class="buddy-bubble" id="buddy-bubble">wait for me!</span>
+    <svg viewBox="0 0 100 100"><use href="#shrimp" /></svg>
+  </button>
+
+  <!-- ===== hero / above water ===== -->
+  <section class="sky">
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+
+    <div class="hero">
+      <h1>hi, i'm <em>shrimp</em>.<br />come for a dive?</h1>
+      <button class="pill" data-dive="about">start diving <span>↓</span></button>
+    </div>
+
+    <div class="floatie" aria-hidden="true">
+      <svg viewBox="0 0 100 100" class="floatie-shrimp"><use href="#shrimp" /></svg>
+      <svg viewBox="0 0 140 50" class="floatie-ring">
+        <ellipse cx="70" cy="25" rx="62" ry="18" fill="none" stroke="url(#ring)" stroke-width="14" />
+      </svg>
+    </div>
+
+    <!-- the waterline: the sky ends in a wave shape (CSS mask) so the real water shows through below -->
+    <div class="surface" aria-hidden="true">
+      <div class="swell"></div>
+      <div class="skyline"></div>
+    </div>
+  </section>
+
+  <!-- ===== the ocean (everything placed by data-depth, in metres) ===== -->
+  <main class="ocean" id="ocean">
+
+    <!-- zone labels -->
+    <div class="zone-label" data-depth="12">the sunlight zone</div>
+    <div class="zone-label" data-depth="200">the twilight zone</div>
+    <div class="zone-label" data-depth="1000">the midnight zone</div>
+    <div class="zone-label" data-depth="4000">the abyss</div>
+    <div class="zone-label" data-depth="6000">the hadal zone</div>
+
+    <!-- ---------- stations (content) ---------- -->
+    <section class="station" id="about" data-depth="90" data-side="right">
+      <div class="card">
+        <h2>the shrimp, <em>in brief</em></h2>
+        <p>Hi! I'm a designer who likes things that feel a little bit alive — soft gradients, tiny animations, interfaces with a sense of humour. This site is a dive: the deeper you go, the weirder it gets.</p>
+        <ul class="chips">
+          <li>based near some water</li>
+          <li>product + visual design</li>
+          <li>not edible</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="station" id="work" data-depth="560" data-side="left">
+      <div class="card wide">
+        <h2>things i've <em>made</em></h2>
+        <div class="projects">
+          <a class="project" href="#" style="--a:#bcd6ea;--b:#5f8fc0;--c:#e8f0f6">
+            <div class="thumb"></div>
+            <div class="meta"><b>Project One</b><span>brand · 2026</span></div>
+          </a>
+          <a class="project" href="#" style="--a:#2f5d94;--b:#9fc1de;--c:#d4e3ef">
+            <div class="thumb"></div>
+            <div class="meta"><b>Project Two</b><span>product · 2025</span></div>
+          </a>
+          <a class="project" href="#" style="--a:#e9f1f7;--b:#3d6fa6;--c:#a9c8e2">
+            <div class="thumb"></div>
+            <div class="meta"><b>Project Three</b><span>web · 2025</span></div>
+          </a>
+          <a class="project" href="#" style="--a:#13305c;--b:#6f9cc8;--c:#2a4f80">
+            <div class="thumb"></div>
+            <div class="meta"><b>Project Four</b><span>motion · 2024</span></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="station" id="playground" data-depth="2300" data-side="right">
+      <div class="card">
+        <h2>small <em>experiments</em></h2>
+        <ol class="list">
+          <li><a href="#"><span>a gradient that breathes</span><i>css · 2026</i></a></li>
+          <li><a href="#"><span>pocket synth for jellyfish</span><i>webaudio · 2026</i></a></li>
+          <li><a href="#"><span>notes on making things soft</span><i>writing · 2025</i></a></li>
+          <li><a href="#"><span>100 days of tiny type</span><i>type · 2025</i></a></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="station" id="now" data-depth="4800" data-side="left">
+      <div class="card">
+        <h2>down here, <em>lately</em></h2>
+        <dl class="now">
+          <dt>reading</dt><dd>The Soul of an Octopus</dd>
+          <dt>listening</dt><dd>whale song, mostly</dd>
+          <dt>learning</dt><dd>shaders &amp; patience</dd>
+          <dt>mood</dt><dd>pressurised but fine</dd>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ---------- creatures (real-ish depths) ---------- -->
+    <figure class="creature" data-depth="35" data-x="18" style="--w:220px" data-fact="they swim in sync without a leader. very group project.">
+      <svg viewBox="0 0 220 110" class="school">
+        <g class="fishes">
+          <use href="#fish" x="10" y="20" /><use href="#fish" x="50" y="8" /><use href="#fish" x="70" y="40" />
+          <use href="#fish" x="110" y="18" /><use href="#fish" x="130" y="52" /><use href="#fish" x="30" y="58" />
+          <use href="#fish" x="150" y="30" /><use href="#fish" x="95" y="70" /><use href="#fish" x="170" y="62" />
+        </g>
+      </svg>
+      <figcaption><b>sardines</b><span>35 m</span></figcaption>
+    </figure>
+
+    <figure class="creature" data-depth="160" data-x="66" style="--w:120px" data-fact="no brain, no heart, 500 million years of vibes.">
+      <svg viewBox="0 0 100 150" class="jelly">
+        <g class="tentacles">
+          <path d="M28 52 q-6 20 2 40 t0 40" /><path d="M42 54 q6 22 -2 44 t2 36" />
+          <path d="M58 54 q-6 22 2 44 t-2 36" /><path d="M72 52 q6 20 -2 40 t0 40" />
+        </g>
+        <path class="bell" d="M8 52 Q50 -16 92 52 Q84 58 75 52 Q66 60 57 53 Q50 60 43 53 Q34 60 25 52 Q16 58 8 52Z" />
+        <g class="gonads"><circle cx="38" cy="36" r="5"/><circle cx="50" cy="30" r="5"/><circle cx="62" cy="36" r="5"/><circle cx="50" cy="42" r="5"/></g>
+      </svg>
+      <figcaption><b>moon jellyfish</b><span>160 m</span></figcaption>
+    </figure>
+
+    <figure class="creature" data-depth="420" data-x="72" style="--w:340px" data-fact="its head is a third of its body. relatable after a long day.">
+      <svg viewBox="0 0 300 110" class="whale">
+        <path d="M8 56 C8 22 40 14 112 16 L196 26 C236 32 256 46 272 54 L296 34 L288 58 L296 84 L270 68 C246 80 200 90 120 90 C58 92 8 88 8 56Z" />
+        <path class="belly" d="M30 78 C70 90 150 90 200 80" />
+        <circle cx="58" cy="52" r="3.4" class="eye" />
+        <path class="flipper" d="M100 82 q14 18 34 14 q-12 -6 -18 -16z" />
+      </svg>
+      <figcaption><b>sperm whale</b><span>420 m</span></figcaption>
+    </figure>
+
+    <figure class="creature" data-depth="760" data-x="26" style="--w:120px" data-fact="they light up blue to hide their own shadow. galaxy brain.">
+      <svg viewBox="0 0 120 70" class="squid glow">
+        <path class="body" d="M10 35 C10 22 40 18 64 26 L78 30 C84 32 84 38 78 40 L64 44 C40 52 10 48 10 35Z" />
+        <path class="arms" d="M78 32 q20 -6 34 -2 M80 35 q18 0 34 4 M78 38 q18 8 30 10" />
+        <g class="lights"><circle cx="22" cy="34" r="2.2"/><circle cx="32" cy="30" r="2.2"/><circle cx="42" cy="36" r="2.2"/><circle cx="52" cy="31" r="2.2"/><circle cx="60" cy="38" r="2.2"/><circle cx="110" cy="30" r="3"/><circle cx="112" cy="39" r="3"/></g>
+      </svg>
+      <figcaption><b>firefly squid</b><span>760 m</span></figcaption>
+    </figure>
+
+    <figure class="creature" data-depth="1500" data-x="70" style="--w:200px" data-fact="she brings her own lamp. iconic.">
+      <svg viewBox="0 0 200 150" class="angler">
+        <path class="lure-line" d="M120 52 C120 10 160 0 176 22" />
+        <circle class="lure" cx="178" cy="28" r="9" />
+        <path class="body" d="M20 90 C20 50 70 34 118 48 C150 58 168 78 168 96 C150 102 140 98 130 104 C140 112 150 116 160 120 C130 140 70 138 40 122 L8 138 L14 104 L4 76 Z" />
+        <path class="teeth" d="M130 104 l4 -8 l4 8 l4 -7 l4 7 l4 -8 l4 8 M136 112 l3 6 l3 -6 l3 6 l3 -6 l3 6" />
+        <circle cx="128" cy="70" r="7" class="eye-w" /><circle cx="130" cy="70" r="3.5" class="eye" />
+      </svg>
+      <figcaption><b>anglerfish</b><span>1,500 m</span></figcaption>
+    </figure>
+
+    <figure class="creature" data-depth="2000" data-x="22" style="--w:90px" data-fact="thousands of rubber ducks fell off a ship in 1992. some are still out here, slightly bleached.">
+      <svg viewBox="0 0 100 90" class="duck">
+        <path class="body" d="M14 52 C14 40 30 38 44 44 C44 20 60 10 74 18 C86 26 84 40 76 46 C92 46 96 58 88 70 C80 84 30 86 18 72 C12 66 12 58 14 52 Z" />
+        <path class="beak" d="M80 28 q14 -2 16 6 q-8 4 -16 2z" />
+        <circle cx="70" cy="26" r="3" class="eye" />
+      </svg>
+      <figcaption><b>a lost rubber duck</b><span>2,000 m</span></figcaption>
+    </figure>
+
+    <figure class="creature" data-depth="3400" data-x="74" style="--w:150px" data-fact="flaps its ears to swim. the cutest thing in the abyss, no contest.">
+      <svg viewBox="0 0 160 140" class="dumbo">
+        <path class="ear l" d="M44 46 C20 30 6 44 14 60 C22 70 38 64 48 58 Z" />
+        <path class="ear r" d="M116 46 C140 30 154 44 146 60 C138 70 122 64 112 58 Z" />
+        <path class="body" d="M36 70 C30 26 130 26 124 70 C140 92 132 112 120 118 C112 108 104 112 100 122 C92 112 86 112 80 124 C74 112 68 112 60 122 C56 112 48 108 40 118 C28 112 20 92 36 70 Z" />
+        <circle cx="64" cy="62" r="5" class="eye" /><circle cx="96" cy="62" r="5" class="eye" />
+        <ellipse cx="56" cy="74" rx="7" ry="4" class="blush" /><ellipse cx="104" cy="74" rx="7" ry="4" class="blush" />
+      </svg>
+      <figcaption><b>dumbo octopus</b><span>3,400 m</span></figcaption>
+    </figure>
+
+    <figure class="creature" data-depth="5600" data-x="30" style="--w:170px" data-fact="a sea cucumber that looks like a gummy pig. eats mud, thrives anyway.">
+      <svg viewBox="0 0 180 100" class="seapig">
+        <path class="body" d="M14 64 C14 40 50 32 96 34 C140 36 166 44 166 62 C166 76 140 80 96 80 C50 80 14 80 14 64 Z" />
+        <path class="papillae" d="M120 38 q4 -22 -6 -30 M134 40 q10 -18 4 -30 M146 44 q14 -10 14 -22" />
+        <g class="legs"><path d="M40 78 v12"/><path d="M60 80 v12"/><path d="M80 80 v12"/><path d="M100 80 v12"/><path d="M120 79 v12"/><path d="M140 76 v12"/></g>
+        <circle cx="152" cy="56" r="2.6" class="eye" />
+      </svg>
+      <figcaption><b>sea pig</b><span>5,600 m</span></figcaption>
+    </figure>
+
+    <figure class="creature" data-depth="8200" data-x="66" style="--w:170px" data-fact="the deepest fish ever filmed. squishy on purpose — bones would crack.">
+      <svg viewBox="0 0 180 80" class="snail">
+        <path class="body" d="M12 40 C12 22 40 16 70 22 C110 30 150 34 172 40 C150 46 110 50 70 58 C40 64 12 58 12 40 Z" />
+        <path class="fin" d="M60 22 C90 14 130 26 172 40 M60 58 C90 66 130 54 172 40" />
+        <circle cx="30" cy="36" r="3" class="eye" />
+      </svg>
+      <figcaption><b>snailfish</b><span>8,200 m</span></figcaption>
+    </figure>
+
+    <!-- ---------- the bottom ---------- -->
+    <footer class="seabed" id="hi">
+      <div class="seabed-inner">
+        <h2>this is where <em>shrimp</em> lives.<br />say hi?</h2>
+        <div class="contact">
+          <a class="pill" href="mailto:hello@example.com">hello@example.com</a>
+          <a href="#">instagram</a><a href="#">are.na</a><a href="#">read.cv</a>
+        </div>
+        <button class="pill ghost" data-dive="0">↑ back to the surface</button>
+      </div>
+
+      <!-- the reef. it carries its own grain (filter #reefGrain) because it sits above the page grain layer -->
+      <svg class="reef" viewBox="0 0 1440 460" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <defs>
+          <filter id="reefGrain" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency=".6" numOctaves="2" seed="3" result="n" />
+            <feColorMatrix in="n" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.7 0 0 0 -.86" result="dark" />
+            <feColorMatrix in="n" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 1.7 0 0 -.86" result="light" />
+            <feComposite in="dark" in2="SourceAlpha" operator="in" result="d" />
+            <feComposite in="light" in2="SourceAlpha" operator="in" result="l" />
+            <feMerge><feMergeNode in="SourceGraphic" /><feMergeNode in="d" /><feMergeNode in="l" /></feMerge>
+          </filter>
+        </defs>
+        <g filter="url(#reefGrain)">
+          <!-- back: dark blue silhouettes -->
+          <g class="reef-back">
+            <path class="branch" d="M120 460 V360 M120 400 Q90 380 80 330 Q70 300 90 280 M120 380 Q150 350 160 300 Q170 280 190 270" />
+            <path d="M300 460 C300 380 460 380 460 460 Z" />
+            <path class="weed" d="M640 460 C630 400 660 360 640 300 C625 250 650 220 640 180" />
+            <path d="M1180 460 V400 C1100 380 1080 260 1180 230 C1280 260 1260 380 1180 400 Z" />
+            <path class="branch" d="M1350 460 V340 M1350 380 Q1320 350 1316 300 M1350 360 Q1385 330 1392 280" />
+          </g>
+          <!-- mid: the reef -->
+          <g class="fan">
+            <path d="M262 460 V410 C170 400 150 270 250 240 C350 250 360 380 270 410 Z" />
+            <path class="vein" d="M262 410 L230 300 M262 410 L258 262 M262 410 L300 290 M262 410 L200 345 M262 410 L330 350" />
+          </g>
+          <path class="staghorn" d="M520 460 V380 M520 410 Q480 390 470 330 Q462 300 480 280 M520 390 Q560 360 566 310 Q570 280 595 268 M545 372 Q590 370 610 340" />
+          <g class="tubes">
+            <rect x="740" y="340" width="34" height="130" rx="17" /><rect x="780" y="300" width="38" height="170" rx="19" /><rect x="824" y="362" width="30" height="110" rx="15" />
+            <ellipse class="hole" cx="757" cy="352" rx="10" ry="5" /><ellipse class="hole" cx="799" cy="313" rx="11" ry="5.5" /><ellipse class="hole" cx="839" cy="373" rx="9" ry="4.5" />
+          </g>
+          <g class="brain">
+            <path d="M900 460 C900 368 1080 368 1080 460 Z" />
+            <path class="fold" d="M922 445 q15 -26 30 0 t30 0 t30 0 t30 0 t30 0 M944 415 q15 -22 30 0 t30 0 t30 0 t30 0" />
+          </g>
+          <path class="kelp" d="M1100 460 C1090 410 1120 380 1105 330 C1092 290 1115 260 1108 220 M60 460 C50 400 80 370 65 320 C55 280 75 250 70 210" />
+          <g class="anemone">
+            <path d="M1225 460 C1225 418 1300 418 1300 460 Z" />
+            <path class="tent" d="M1234 432 q-10 -30 -2 -50 M1248 426 q-6 -36 4 -58 M1262 423 q0 -40 10 -60 M1276 426 q8 -36 20 -52 M1290 433 q12 -28 26 -40" />
+          </g>
+          <!-- front: sand -->
+          <path class="sand" d="M0 430 C200 410 380 440 620 424 C860 408 1100 446 1440 424 V460 H0 Z" />
+        </g>
+      </svg>
+    </footer>
+  </main>
+
+  <!-- ===== reusable SVG symbols ===== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="shell" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ffc9ba" />
+        <stop offset=".5" stop-color="#ffa18c" />
+        <stop offset="1" stop-color="#f4806d" />
+      </linearGradient>
+      <clipPath id="shrimpClip"><path d="M76,28.1 A34 34 0 1 0 68,78.8 A6.8 6.8 0 0 0 57.9,69.7 A15 15 0 1 1 61.5,47.4 A12.1 12.1 0 0 0 76,28.1 Z" /></clipPath>
+      <linearGradient id="ring" x1="0" x2="1">
+        <stop offset="0" stop-color="#fff" /><stop offset=".25" stop-color="#ff7a8a" />
+        <stop offset=".5" stop-color="#fff" /><stop offset=".75" stop-color="#ff7a8a" />
+        <stop offset="1" stop-color="#fff" />
+      </linearGradient>
+      <radialGradient id="lureGlow"><stop offset="0" stop-color="#fffbe0" /><stop offset=".5" stop-color="#bff7ff" /><stop offset="1" stop-color="#5ee6ff" stop-opacity="0" /></radialGradient>
+
+      <!-- the shrimp: a curled, peeled shrimp (虾仁) -->
+      <symbol id="shrimp" viewBox="0 0 100 100">
+        <g fill="#f4806d">
+          <ellipse cx="70" cy="82" rx="9" ry="5" transform="rotate(15 70 82)" />
+          <ellipse cx="64" cy="90" rx="9" ry="5" transform="rotate(75 64 90)" />
+        </g>
+        <path d="M76,28.1 A34 34 0 1 0 68,78.8 A6.8 6.8 0 0 0 57.9,69.7 A15 15 0 1 1 61.5,47.4 A12.1 12.1 0 0 0 76,28.1 Z" fill="url(#shell)" />
+        <path clip-path="url(#shrimpClip)" d="M50.4,45 Q54.6,23.9 51.3,13 M42.6,47.5 Q36.8,27.1 27.2,20.8 M38.3,54.5 Q25.1,40.9 13.8,42.3 M39.4,62.6 Q25.1,59.1 17.3,67.4 M45.1,68 Q36,72.5 35,83.8" fill="none" stroke="#ffe6de" stroke-width="3" stroke-linecap="round" opacity=".85" />
+        <g fill="none" stroke="#f4806d" stroke-width="1.5" stroke-linecap="round">
+          <path d="M74 27 q4 -10 14 -12" /><path d="M69 26 q0 -10 8 -14" />
+        </g>
+        <circle cx="65.5" cy="34.5" r="2.4" fill="#1a1530" /><circle cx="66.2" cy="33.8" r=".8" fill="#fff" />
+        <circle cx="74.5" cy="37" r="2.4" fill="#1a1530" /><circle cx="75.2" cy="36.3" r=".8" fill="#fff" />
+        <ellipse cx="63" cy="40" rx="3.2" ry="1.9" fill="#ff6f86" opacity=".4" />
+        <ellipse cx="75.5" cy="43" rx="3.2" ry="1.9" fill="#ff6f86" opacity=".4" />
+        <path d="M68.6 39.6 q2.2 1.9 4.4 .6" fill="none" stroke="#b8433b" stroke-width="1.2" stroke-linecap="round" />
+      </symbol>
+
+      <symbol id="fish" viewBox="0 0 40 20" width="40" height="20">
+        <path d="M2 10 C8 2 24 2 32 10 C24 18 8 18 2 10 Z M30 10 L40 3 L38 10 L40 17 Z" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <script src="main.js"></script>
+</body>
+</html>
