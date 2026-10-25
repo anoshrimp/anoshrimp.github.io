@@ -71,6 +71,59 @@ const luminance = (rgb) => {
   return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
 };
 
+/* ---------- content: text & projects come from content.json (edited in /admin) ----------
+   the HTML keeps a copy of the same content as a fallback if the fetch fails. */
+const h = (tag, attrs = {}, ...kids) => {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  el.append(...kids);
+  return el;
+};
+const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const safeUrl = (u) => (/^(https?:|mailto:|\/|\.\/)/i.test(u || "") ? u : "#");
+const ext = { target: "_blank", rel: "noopener" };
+
+const RENDER = {
+  status: (el, c) => el.replaceChildren(c.status),
+  "about.text": (el, c) => el.replaceChildren(c.about.text),
+  "about.chips": (el, c) => el.replaceChildren(...c.about.chips.map((t) => h("li", {}, t))),
+  projects: (el, c) =>
+    el.replaceChildren(
+      ...c.projects
+        .filter((p) => p.visible !== false)
+        .map((p) =>
+          h("a", { class: "project", href: safeUrl(p.url), ...ext, "data-track": `project:${p.id || slug(p.name)}` },
+            h("div", { class: "thumb" }, ...(p.image ? [h("img", { src: safeUrl(p.image), alt: `${p.name} case study cover`, loading: "lazy" })] : [])),
+            h("div", { class: "meta" }, h("b", {}, p.name), h("span", {}, p.role || "")),
+            h("p", { class: "blurb" }, p.blurb || "")
+          )
+        )
+    ),
+  playground: (el, c) =>
+    el.replaceChildren(
+      ...c.playground.map((p) =>
+        h("li", {}, h("a", { href: safeUrl(p.url), ...ext, "data-track": `playground:${slug(p.title)}` }, h("span", {}, p.title), h("i", {}, "↗")))
+      )
+    ),
+  path: (el, c) => el.replaceChildren(...c.path.flatMap((r) => [h("dt", {}, r.label), h("dd", {}, r.value)])),
+  contact: (el, c) =>
+    el.replaceChildren(
+      h("a", { class: "pill", href: `mailto:${c.contact.email}`, "data-track": "contact:email" }, c.contact.email),
+      ...c.contact.links.map((l) => h("a", { href: safeUrl(l.url), ...ext, "data-track": `contact:${slug(l.label)}` }, l.label))
+    ),
+};
+
+async function loadContent() {
+  try {
+    const res = await fetch("content.json", { cache: "no-cache" });
+    if (!res.ok) return;
+    const c = await res.json();
+    document.querySelectorAll("[data-content]").forEach((el) => {
+      try { RENDER[el.dataset.content]?.(el, c); } catch { /* keep the HTML fallback for this block */ }
+    });
+  } catch { /* offline or bad JSON: the HTML fallback stays */ }
+}
+
 /* ---------- layout: place everything by depth ---------- */
 const ocean = document.getElementById("ocean");
 const root = document.documentElement.style;
@@ -253,5 +306,6 @@ function frame() {
 
 addEventListener("resize", layout);
 layout();
+loadContent().then(layout);         // re-place creatures once real content sets card sizes
 document.fonts?.ready.then(layout); // card heights change once the web fonts arrive
 requestAnimationFrame(frame);

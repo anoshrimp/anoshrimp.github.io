@@ -5,8 +5,12 @@
 const GA_ID = "G-9HKLXD504N";      // GA4 → Admin → Data streams → Measurement ID
 const CLARITY_ID = "z2zcnyrfq3";   // Clarity → Settings → Overview → Project ID
 
-const gaOn = /^G-[A-Z0-9]+$/.test(GA_ID) && GA_ID !== "G-XXXXXXXXXX";
-const clarityOn = /^[a-z0-9]+$/.test(CLARITY_ID) && CLARITY_ID !== "xxxxxxxxxx";
+// only count real visits on the live site (not local previews),
+// and never on a device where the owner ticked "don't track my own visits" in /admin
+const EXCLUDED = (() => { try { return localStorage.getItem("shrimp-exclude") === "1"; } catch { return false; } })();
+const LIVE = location.hostname === "anoshrimp.github.io" && !EXCLUDED;
+const gaOn = LIVE && /^G-[A-Z0-9]+$/.test(GA_ID) && GA_ID !== "G-XXXXXXXXXX";
+const clarityOn = LIVE && /^[a-z0-9]+$/.test(CLARITY_ID) && CLARITY_ID !== "xxxxxxxxxx";
 
 /* ---------- consent (needed for cookies in EU/UK/CA) ---------- */
 const CONSENT_KEY = "shrimp-consent";

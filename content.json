@@ -1,0 +1,73 @@
+{
+  "status": "currently user researcher @ Gallup",
+  "about": {
+    "text": "I'm a UX researcher with roots in cognitive science and design strategy, experienced across B2B and B2C AI and EdTech products. I do the research that helps teams ship every iteration with clarity.",
+    "chips": ["user research @ Gallup", "MDes, UC Berkeley", "Cog Sci + Business Econ, UCLA"]
+  },
+  "projects": [
+    {
+      "id": "amazon",
+      "name": "Amazon",
+      "role": "UX Research Intern",
+      "blurb": "Improving strategies for acquiring business customers through email marketing",
+      "url": "https://www.sharontzhao.com/home/amazon",
+      "image": "https://images.squarespace-cdn.com/content/v1/65a378b1a72f1c4f2b36ee46/f8c2b208-d2ae-4eac-8d04-8a98e2d9167c/Group+7.png?format=750w",
+      "visible": true
+    },
+    {
+      "id": "fhl",
+      "name": "FHL Vive Center",
+      "role": "UX Researcher",
+      "blurb": "Guiding the design of voice-based LLM interactions for rover control",
+      "url": "https://www.sharontzhao.com/home/fhl",
+      "image": "https://images.squarespace-cdn.com/content/v1/65a378b1a72f1c4f2b36ee46/ed749844-2dbf-4675-bb2d-cf3d302013a8/Group+6.png?format=750w",
+      "visible": true
+    },
+    {
+      "id": "neoboard",
+      "name": "Neoboard",
+      "role": "UX Research Intern",
+      "blurb": "Uncovering instructors' pain points with learning management system tools",
+      "url": "https://www.sharontzhao.com/home/neoboard",
+      "image": "https://images.squarespace-cdn.com/content/v1/65a378b1a72f1c4f2b36ee46/4a78be4e-5352-4f87-ac66-1712095aa60b/Group+3.png?format=750w",
+      "visible": true
+    },
+    {
+      "id": "zililab",
+      "name": "Zili Lab",
+      "role": "Research Assistant",
+      "blurb": "How frustrating features shape the mobile app experience",
+      "url": "https://www.sharontzhao.com/home/zililab",
+      "image": "https://images.squarespace-cdn.com/content/v1/65a378b1a72f1c4f2b36ee46/a0890a21-ab78-440e-9b77-97069f51e880/Group+4.png?format=750w",
+      "visible": true
+    },
+    {
+      "id": "blox",
+      "name": "Blox",
+      "role": "Product Prototyper",
+      "blurb": "Exploring how kids might do block-based programming in the future",
+      "url": "https://www.sharontzhao.com/blox",
+      "image": "https://images.squarespace-cdn.com/content/v1/65a378b1a72f1c4f2b36ee46/afbc82cd-276e-4d80-8ceb-a3d1f2d90709/Group+5.png?format=750w",
+      "visible": true
+    }
+  ],
+  "playground": [
+    { "title": "Product Design", "url": "https://www.sharontzhao.com/playground/design" },
+    { "title": "Video Games", "url": "https://www.sharontzhao.com/playground/games" },
+    { "title": "Business Strategy", "url": "https://www.sharontzhao.com/playground/strategy" },
+    { "title": "Random", "url": "https://www.sharontzhao.com/playground/random" }
+  ],
+  "path": [
+    { "label": "now", "value": "User Researcher, Gallup" },
+    { "label": "before", "value": "UX Research Intern, Amazon" },
+    { "label": "studied", "value": "MDes, UC Berkeley" },
+    { "label": "roots", "value": "Cognitive Science + Business Economics, UCLA" }
+  ],
+  "contact": {
+    "email": "sharontzhao@gmail.com",
+    "links": [
+      { "label": "linkedin", "url": "https://www.linkedin.com/in/sharon-t-zhao/" },
+      { "label": "behance", "url": "https://www.behance.net/sharontzhao" }
+    ]
+  }
+}

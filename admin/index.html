@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>shrimp · admin</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M76,28.1 A34 34 0 1 0 68,78.8 A6.8 6.8 0 0 0 57.9,69.7 A15 15 0 1 1 61.5,47.4 A12.1 12.1 0 0 0 76,28.1 Z' fill='%23ff8c78'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css?v=1" />
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="../">
+      <svg viewBox="0 0 100 100" width="24" height="24"><path d="M76,28.1 A34 34 0 1 0 68,78.8 A6.8 6.8 0 0 0 57.9,69.7 A15 15 0 1 1 61.5,47.4 A12.1 12.1 0 0 0 76,28.1 Z" fill="#ff8c78" /></svg>
+      shrimp <span>admin</span>
+    </a>
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="data" aria-selected="true">Data</button>
+      <button role="tab" data-tab="edit" aria-selected="false">Edit</button>
+    </nav>
+    <div class="top-right">
+      <span class="demo-badge" id="demo-badge" hidden>demo mode</span>
+      <a href="../" target="_blank" rel="noopener">View site ↗</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= data ================= -->
+    <section class="panel" id="panel-data">
+      <div class="gate" id="data-gate" hidden></div>
+
+      <div id="data-body" hidden>
+        <div class="toolbar">
+          <div class="seg" id="range" role="group" aria-label="Date range">
+            <button data-range="7">7 days</button>
+            <button data-range="28" class="on">28 days</button>
+            <button data-range="90">90 days</button>
+          </div>
+          <button class="ghost" id="refresh">Refresh</button>
+          <span class="muted" id="updated"></span>
+        </div>
+
+        <div class="live" id="live"></div>
+
+        <div class="kpis" id="kpis"></div>
+
+        <div class="grid">
+          <article class="box span-2">
+            <h3>Visitors per day</h3>
+            <div id="trend" class="chart"></div>
+          </article>
+          <article class="box">
+            <h3>Dive depth <small>people who reached each depth</small></h3>
+            <div id="depth"></div>
+          </article>
+          <article class="box">
+            <h3>Cities</h3>
+            <div id="cities"></div>
+          </article>
+          <article class="box">
+            <h3>Where they came from</h3>
+            <div id="sources"></div>
+          </article>
+          <article class="box">
+            <h3>Devices &amp; browsers</h3>
+            <div id="devices"></div>
+            <div id="browsers" class="mt"></div>
+          </article>
+          <article class="box">
+            <h3>What they clicked</h3>
+            <div id="clicks"></div>
+          </article>
+          <article class="box">
+            <h3>Sections viewed <small>in view 1.5 s+</small></h3>
+            <div id="sections"></div>
+          </article>
+          <article class="box">
+            <h3>Creatures <small>fun fact opened</small></h3>
+            <div id="creatures"></div>
+          </article>
+          <article class="box span-2">
+            <h3>Recent visits</h3>
+            <div id="recent"></div>
+          </article>
+          <article class="box span-2 clarity">
+            <div>
+              <h3>Microsoft Clarity</h3>
+              <p class="muted">Session replays (mouse, scroll, clicks) and heatmaps live in Clarity.</p>
+            </div>
+            <div class="btns" id="clarity-links"></div>
+          </article>
+        </div>
+
+        <label class="exclude">
+          <input type="checkbox" id="exclude-me" />
+          Don't track my own visits on this device
+        </label>
+      </div>
+    </section>
+
+    <!-- ================= edit ================= -->
+    <section class="panel" id="panel-edit" hidden>
+      <div class="gate" id="edit-gate" hidden></div>
+      <form id="editor" hidden autocomplete="off"></form>
+      <div class="savebar" id="savebar" hidden>
+        <span id="save-state">No unsaved changes</span>
+        <button type="button" class="ghost" id="revert">Discard changes</button>
+        <button type="button" id="save">Save &amp; publish</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="tip" id="tip" role="tooltip" hidden></div>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="admin.js?v=1"></script>
+</body>
+</html>
