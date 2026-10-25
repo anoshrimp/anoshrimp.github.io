@@ -158,6 +158,11 @@ let tilt = 0;
 let zoneIdx = -1;
 let bubbleTimer;
 
+// read-only view of the dive for analytics.js
+window.shrimp = {
+  get depth() { return depth; },
+};
+
 function say(text, ms = 2600) {
   bubble.textContent = text;
   bubble.classList.add("show");
