@@ -5,8 +5,8 @@
 const GA_ID = "G-9HKLXD504N";      // GA4 → Admin → Data streams → Measurement ID
 const CLARITY_ID = "xxxxxxxxxx";   // Clarity → Settings → Overview → Project ID
 
-const gaOn = !GA_ID.includes("X");
-const clarityOn = !CLARITY_ID.startsWith("x");
+const gaOn = /^G-[A-Z0-9]+$/.test(GA_ID) && GA_ID !== "G-XXXXXXXXXX";
+const clarityOn = /^[a-z0-9]+$/.test(CLARITY_ID) && CLARITY_ID !== "xxxxxxxxxx";
 
 /* ---------- consent (needed for cookies in EU/UK/CA) ---------- */
 const CONSENT_KEY = "shrimp-consent";
