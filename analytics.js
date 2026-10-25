@@ -3,7 +3,7 @@
    paste your two IDs below. until then nothing loads.
    ========================================================= */
 const GA_ID = "G-9HKLXD504N";      // GA4 → Admin → Data streams → Measurement ID
-const CLARITY_ID = "xxxxxxxxxx";   // Clarity → Settings → Overview → Project ID
+const CLARITY_ID = "z2zcnyrfq3";   // Clarity → Settings → Overview → Project ID
 
 const gaOn = /^G-[A-Z0-9]+$/.test(GA_ID) && GA_ID !== "G-XXXXXXXXXX";
 const clarityOn = /^[a-z0-9]+$/.test(CLARITY_ID) && CLARITY_ID !== "xxxxxxxxxx";
