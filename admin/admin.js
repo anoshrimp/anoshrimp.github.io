@@ -241,7 +241,6 @@ function lineChart(el, points, unit) {
 }
 
 /* ---------- panels ---------- */
-const NEEDS_DIM = (dim) => `Register the custom dimension <code>${dim}</code> in GA4 (Admin → Custom definitions, scope: Event) to see this. Only data collected after that shows up.`;
 const clean = (v) => (v === "(not set)" || v === "" ? "Unknown" : v);
 
 const PANELS = {
@@ -272,13 +271,6 @@ const PANELS = {
     }
     lineChart($("#trend"), pts, "visitors");
   },
-  async depth() {
-    try {
-      const r = await report(["customEvent:depth_m"], ["totalUsers"], { event: "dive_depth" });
-      const items = r.filter((x) => /^\d+$/.test(x.d[0])).sort((a, b) => +a.d[0] - +b.d[0]).map((x) => ({ label: `${num.format(+x.d[0])} m`, value: x.m[0] }));
-      barList($("#depth"), items);
-    } catch (e) { if (e.status === 400) note($("#depth"), NEEDS_DIM("depth_m")); else throw e; }
-  },
   async cities() {
     const r = await report(["city", "country"], ["activeUsers"], { order: "metric", limit: 10 });
     barList($("#cities"), r.map((x) => ({ label: clean(x.d[0]), sub: clean(x.d[1]), value: x.m[0] })));
@@ -294,26 +286,6 @@ const PANELS = {
     ]);
     barList($("#devices"), d.map((x) => ({ label: x.d[0][0].toUpperCase() + x.d[0].slice(1), value: x.m[0] })));
     barList($("#browsers"), b.map((x) => ({ label: x.d[0], value: x.m[0] })));
-  },
-  async clicks() {
-    try {
-      const r = await report(["customEvent:item", "customEvent:kind"], ["eventCount"], { event: "link_click", order: "metric", limit: 15 });
-      barList($("#clicks"), r.map((x) => ({ label: x.d[0], sub: x.d[1], value: x.m[0] })));
-    } catch (e) { if (e.status === 400) note($("#clicks"), NEEDS_DIM("item") + " (and <code>kind</code>)"); else throw e; }
-  },
-  async sections() {
-    try {
-      const order = ["about", "work", "playground", "now", "hi"];
-      const names = { about: "About", work: "Case studies", playground: "Playground", now: "Path so far", hi: "Seabed / contact" };
-      const r = await report(["customEvent:section"], ["totalUsers"], { event: "section_view" });
-      barList($("#sections"), r.sort((a, b) => order.indexOf(a.d[0]) - order.indexOf(b.d[0])).map((x) => ({ label: names[x.d[0]] || x.d[0], value: x.m[0] })));
-    } catch (e) { if (e.status === 400) note($("#sections"), NEEDS_DIM("section")); else throw e; }
-  },
-  async creatures() {
-    try {
-      const r = await report(["customEvent:creature"], ["eventCount"], { event: "creature_peek", order: "metric" });
-      barList($("#creatures"), r.map((x) => ({ label: x.d[0], value: x.m[0] })));
-    } catch (e) { if (e.status === 400) note($("#creatures"), NEEDS_DIM("creature")); else throw e; }
   },
   async recent() {
     const r = await report(["dateHourMinute", "city", "country", "sessionSource", "deviceCategory", "browser"], ["sessions"], { order: "dateHourMinute", limit: 25 });
@@ -341,14 +313,14 @@ const PANELS = {
   },
 };
 
-const PANEL_EL = { live: "#live", kpis: "#kpis", trend: "#trend", depth: "#depth", cities: "#cities", sources: "#sources", devices: "#devices", clicks: "#clicks", sections: "#sections", creatures: "#creatures", recent: "#recent" };
+const PANEL_EL = { live: "#live", kpis: "#kpis", trend: "#trend", cities: "#cities", sources: "#sources", devices: "#devices", recent: "#recent" };
 
 async function loadData() {
   if (!DEMO && (!CONFIG.googleClientId || !CONFIG.gaPropertyId)) return dataGate("setup");
   if (!DEMO && !googleToken()) return dataGate("signin");
   $("#data-gate").hidden = true;
   $("#data-body").hidden = false;
-  Object.values(PANEL_EL).forEach((s) => { if (s !== "#live" && s !== "#kpis") $(s).innerHTML = '<div class="skeleton"></div>'; });
+  [...Object.values(PANEL_EL), "#browsers"].forEach((s) => { if (s !== "#live" && s !== "#kpis") $(s).innerHTML = '<div class="skeleton"></div>'; });
 
   let authFail = null;
   await Promise.all(Object.entries(PANELS).map(async ([name, fn]) => {
@@ -635,14 +607,10 @@ function demoReport(method, body) {
   }
   const s = (n) => Math.max(1, Math.round(n * scale));
   const table = {
-    "customEvent:depth_m": [[50, 280], [200, 231], [500, 190], [1000, 142], [2000, 101], [4000, 74], [6000, 58], [8000, 49], [10994, 41]].map(([d, n]) => R([d], s(n))),
     "city,country": [["San Francisco", "United States", 61], ["New York", "United States", 44], ["Washington", "United States", 37], ["Los Angeles", "United States", 29], ["Shanghai", "China", 22], ["Seattle", "United States", 18], ["London", "United Kingdom", 11], ["(not set)", "United States", 7]].map(([a, b, n]) => R([a, b], s(n))),
     "sessionSource,sessionMedium": [["linkedin.com", "referral", 162], ["(direct)", "(none)", 131], ["google", "organic", 74], ["behance.net", "referral", 39], ["sharontzhao.com", "referral", 22]].map(([a, b, n]) => R([a, b], s(n))),
     deviceCategory: [["desktop", 201], ["mobile", 104], ["tablet", 7]].map(([a, n]) => R([a], s(n))),
     browser: [["Chrome", 176], ["Safari", 98], ["Edge", 21], ["Firefox", 17]].map(([a, n]) => R([a], s(n))),
-    "customEvent:item,customEvent:kind": [["amazon", "project", 88], ["linkedin", "contact", 51], ["fhl", "project", 47], ["email", "contact", 33], ["neoboard", "project", 29], ["zililab", "project", 18], ["product-design", "playground", 15], ["blox", "project", 12]].map(([a, b, n]) => R([a, b], s(n))),
-    "customEvent:section": [["about", 251], ["work", 210], ["playground", 96], ["now", 71], ["hi", 44]].map(([a, n]) => R([a], s(n))),
-    "customEvent:creature": [["moon jellyfish", 64], ["anglerfish", 41], ["dumbo octopus", 39], ["sperm whale", 22], ["a lost rubber duck", 19], ["sardines", 11]].map(([a, n]) => R([a], s(n))),
   };
   if (table[key]) return rows(table[key]);
   if (dims[0] === "dateHourMinute") {
