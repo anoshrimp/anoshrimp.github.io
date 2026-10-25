@@ -2,7 +2,7 @@
    visitor tracking: Google Analytics 4 + Microsoft Clarity
    paste your two IDs below. until then nothing loads.
    ========================================================= */
-const GA_ID = "G-XXXXXXXXXX";      // GA4 → Admin → Data streams → Measurement ID
+const GA_ID = "G-9HKLXD504N";      // GA4 → Admin → Data streams → Measurement ID
 const CLARITY_ID = "xxxxxxxxxx";   // Clarity → Settings → Overview → Project ID
 
 const gaOn = !GA_ID.includes("X");
